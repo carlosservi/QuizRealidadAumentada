@@ -1,13 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-import dificultad
-
 
 # Variable global para almacenar el título del tema seleccionado
 titulo_tema = None
-dif = None
-
 
 def interfaz_tema():
     global titulo_tema
@@ -17,7 +13,6 @@ def interfaz_tema():
         global titulo_tema
         global dif
         titulo_tema = nombre_seccion
-        #dif = dificultad.interfaz_dificultad()
         ventana.destroy()
     
     ventana = tk.Tk()
@@ -70,7 +65,7 @@ def interfaz_tema():
     # Ejecutar la interfaz gráfica
     ventana.mainloop()
 
-    return titulo_tema, dif
+    return titulo_tema
 
 
 def crear_seccion(ventana, fila, columna, icono, titulo, tema_wrapper):

@@ -23,27 +23,33 @@ def interfaz_dificultad():
     y = (altura_pantalla // 2) - (300 // 2)
     ventana.geometry(f"600x300+{x}+{y}")
 
-    #icono = tk.PhotoImage(file="Imagenes/micro.png")
+    # Cargar la imagen
+    imagen = Image.open("Imagenes/micro.png")
+    imagen = imagen.resize((100, 100), Image.ANTIALIAS)
+    icono = ImageTk.PhotoImage(imagen)
+
+    #Texto
     texto = "Diga por voz o pulse la dificultad:"
-    
-    # label_icono = ttk.Label(ventana, image=icono)
-    # label_icono.pack()
+
     label_titulo = ttk.Label(ventana, text=texto)
     label_titulo.pack(pady=10)
+
+    label_icono = ttk.Label(ventana, image=icono)
+    label_icono.pack()
 
     # Estilo para los botones
     estilo_boton = ttk.Style()
     estilo_boton.configure("TButton", font=("Arial", 12))
 
     frame_botones = ttk.Frame(ventana, padding=20)
-    frame_botones.pack(side="bottom", padx=20, pady=20)
+    frame_botones.pack(side="bottom", padx=20, pady=30)
 
     boton_facil = ttk.Button(frame_botones, text="Fácil", command=lambda: seleccionar_dificultad("Fácil", ventana))
-    boton_facil.pack(side="left", padx=5)
+    boton_facil.pack(side="left", padx=20)
     boton_medio = ttk.Button(frame_botones, text="Medio", command=lambda: seleccionar_dificultad("Medio", ventana))
-    boton_medio.pack(side="left", padx=5)
+    boton_medio.pack(side="left", padx=20)
     boton_dificil = ttk.Button(frame_botones, text="Difícil", command=lambda: seleccionar_dificultad("Difícil", ventana))
-    boton_dificil.pack(side="left", padx=5)
+    boton_dificil.pack(side="left", padx=20)
 
     ventana.mainloop()
 
