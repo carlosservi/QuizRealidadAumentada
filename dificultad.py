@@ -44,11 +44,9 @@ def interfaz_dificultad():
     frame_botones = ttk.Frame(ventana, padding=20)
     frame_botones.pack(side="bottom", padx=20, pady=30)
 
-    boton_facil = ttk.Button(frame_botones, text="Fácil", command=lambda: seleccionar_dificultad("Fácil", ventana))
+    boton_facil = ttk.Button(frame_botones, text="Fácil", command=lambda: seleccionar_dificultad("0", ventana))
     boton_facil.pack(side="left", padx=20)
-    boton_medio = ttk.Button(frame_botones, text="Medio", command=lambda: seleccionar_dificultad("Medio", ventana))
-    boton_medio.pack(side="left", padx=20)
-    boton_dificil = ttk.Button(frame_botones, text="Difícil", command=lambda: seleccionar_dificultad("Difícil", ventana))
+    boton_dificil = ttk.Button(frame_botones, text="Difícil", command=lambda: seleccionar_dificultad("1", ventana))
     boton_dificil.pack(side="left", padx=20)
 
     ventana.mainloop()

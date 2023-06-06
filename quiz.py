@@ -8,7 +8,7 @@ from preguntas import get_preguntas, get_respuestas
 import random
 import time
 
-def ejecutar_quiz(tema):
+def ejecutar_quiz(preguntas, respuestas, letras_correctas):
     cap = cv2.VideoCapture(0)
 
     # Obtener las dimensiones de la pantalla
@@ -31,39 +31,17 @@ def ejecutar_quiz(tema):
     faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
     cont = 0
-    i = random.randint(0, 9)
-    text = get_preguntas(tema, i)
-    respuesta = None
-    tiempo_total = 10
+    text = preguntas[cont]
+    tiempo_total = 5
+    cuenta_regresiva = 5
     inicio = time.time()
-    cuenta_regresiva = 10
-    resultado = False
-
-    array_aciertos = []
-    array_preguntas = []
-    array_preguntas.append(i)
 
     while True and cont < 5:
         #Gestionar respuesta y tiempo
-        if respuesta or cuenta_regresiva == 0:
-            resultado = False
-            if respuesta == get_respuestas(tema,i):
-                array_aciertos.append(True)
-                text = "CORRECTO"
-                resultado = True
-            elif respuesta != None:
-                array_aciertos.append(False)
-                text = "INCORRECTO"
-                resultado = True
-                
-            cont = cont + 1
-
-            if resultado == False:
-                while i in array_preguntas:
-                    i = random.randint(0, 9)
-                array_preguntas.append(i)
-                text = get_preguntas(tema, i)
-                inicio = time.time()
+        if cuenta_regresiva == 0:
+            cont = cont+1
+            text = preguntas[cont]
+            inicio = time.time()
 
         # Restar el tiempo transcurrido al tiempo total para obtener la cuenta regresiva
         tiempo_transcurrido = int(time.time() - inicio)
@@ -98,10 +76,7 @@ def ejecutar_quiz(tema):
             text_y = y - text_height
 
             # Dibujar el texto en la imagen Pillow
-            if resultado == False:
-                draw.text((text_x, text_y), text, font=font, fill=font_color, stroke_width=thickness)
-            else:
-                draw.text((text_x, text_y), text, font=font2, fill=font_color, stroke_width=thickness)
+            draw.text((text_x, text_y), text, font=font, fill=font_color, stroke_width=thickness)
 
         # Convertir la imagen Pillow a marco de OpenCV
         frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
@@ -121,4 +96,4 @@ def ejecutar_quiz(tema):
 
     cap.release()
     cv2.destroyAllWindows()
-    return array_aciertos
+    #return 
