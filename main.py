@@ -5,6 +5,15 @@ import dificultad
 import bbdd
 
 def main():
+    #Recuperación de base de datos
+    # bbdd.conexion()
+    # bbdd.limpiarBaseDeDatos()
+    # bbdd.recuperarTablas()
+    # bbdd.recuperarTematicas()
+    # bbdd.recuperarPreguntas()
+    # bbdd.cerrarConexion()
+    
+    #Flujo normal de la aplicación
      nombre = interfazInicial.interfaz_inicial()
      if(nombre != None):
          nombre_tema = interfazTema.interfaz_tema()
@@ -16,10 +25,7 @@ def main():
          bbdd.cerrarConexion()
          quiz.ejecutar_quiz(preguntas, respuestas, letras)
     
-    # bbdd.limpiarBaseDeDatos()
-    # bbdd.recuperarTablas()
-    # bbdd.recuperarTematicas()
-    # bbdd.recuperarPreguntas()
+    
     
 
 

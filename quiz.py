@@ -4,7 +4,6 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk
 import tkinter as tk
 import numpy as np
 import screeninfo
-from preguntas import get_preguntas, get_respuestas
 import random
 import time
 

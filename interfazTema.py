@@ -1,19 +1,31 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+from threading import Thread, Event
+from speech import reconocimiento_de_voz, getTextoReconocido
 
 # Variable global para almacenar el título del tema seleccionado
 titulo_tema = None
+evento = Event()
 
 def interfaz_tema():
     global titulo_tema
-    global dif
 
     def tema_wrapper(nombre_seccion, ventana):
         global titulo_tema
-        global dif
         titulo_tema = nombre_seccion
         ventana.destroy()
+    
+    def comprobar_evento():
+        global titulo_tema
+        if evento.is_set():
+            texto_reconocido = getTextoReconocido()
+            result = comprobarTema(texto_reconocido)
+            if (result == True):
+                titulo_tema = texto_reconocido
+                ventana.destroy()
+        else:
+            ventana.after(100, comprobar_evento)
     
     ventana = tk.Tk()
     ventana.title("Elegir Tema")
@@ -62,11 +74,28 @@ def interfaz_tema():
             titulo = titulos[index]
             crear_seccion(ventana, i, j, icono, titulo, tema_wrapper)
 
+    #Iniciar la hebra de speech 
+    h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
+    h1.start()
+
+    #Comprobar evento
+    comprobar_evento()
+
     # Ejecutar la interfaz gráfica
     ventana.mainloop()
 
     return titulo_tema
 
+def comprobarTema(texto_reconocido):    
+    print("Comprobando...")
+    if(texto_reconocido != None):
+        substrings = ["animales", "paises", "profesiones", "deportes", "instrumentos", "cuerpo", "transporte", "rios"]
+        for substring in substrings:
+            if substring in texto_reconocido.lower():
+                return True
+        return False
+    else:
+        return False
 
 def crear_seccion(ventana, fila, columna, icono, titulo, tema_wrapper):
     frame = ttk.LabelFrame(ventana, padding="10 20 10 10")
