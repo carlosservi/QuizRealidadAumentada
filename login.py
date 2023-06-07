@@ -47,6 +47,7 @@ def loguearse():
                 nombre_registrado = nombres_registrados[indice]
                 cap.release()
                 cv2.destroyAllWindows()
+                # Mostrar el cuadro de mensaje
                 messagebox.showinfo("Reconocido", f'Hola {nombre_registrado}')
                 return nombre_registrado
 

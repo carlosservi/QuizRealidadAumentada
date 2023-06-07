@@ -24,6 +24,8 @@ def interfaz_tema():
             if (result == True):
                 titulo_tema = texto_reconocido
                 ventana.destroy()
+            else:
+                h1.start()
         else:
             ventana.after(100, comprobar_evento)
     
@@ -77,7 +79,7 @@ def interfaz_tema():
     #Iniciar la hebra de speech 
     h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
     h1.start()
-
+    
     #Comprobar evento
     comprobar_evento()
 
@@ -87,7 +89,6 @@ def interfaz_tema():
     return titulo_tema
 
 def comprobarTema(texto_reconocido):    
-    print("Comprobando...")
     if(texto_reconocido != None):
         substrings = ["animales", "paises", "profesiones", "deportes", "instrumentos", "cuerpo", "transporte", "rios"]
         for substring in substrings:
