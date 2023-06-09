@@ -28,57 +28,57 @@ tablas_sql = [
 ]
 
 tematicas = [
-    'Animales',
-    'Paises',
-    'Profesiones',
-    'Deportes',
-    'Instrumentos',
-    'Cuerpo',
-    'Transporte',
-    'Rios'
+    'animales',
+    'paises',
+    'profesiones',
+    'deportes',
+    'instrumentos',
+    'cuerpo',
+    'transporte',
+    'rios'
 ]
 
 opciones_correctas = {
-    "Animales": {
+    "animales": {
         0: ['c', 'd', 'd', 'a', 'd'],
         1: ['b', 'b', 'a', 'b', 'd']
     },
-    "Paises": {
+    "paises": {
         0: ['a', 'a', 'c', 'c', 'a'],
         1: ['a', 'a', 'b', 'd', 'b']
     },
-    "Profesiones": {
+    "profesiones": {
         0: ['c', 'd', 'b', 'c', 'a'],
         1: ['b', 'a', 'a', 'b', 'd']
     },
-    "Colores": {
+    "colores": {
         0: ['c', 'a', 'd', 'b', 'd'],
         1: ['a', 'b', 'b', 'c', 'a']
     },
-    "Deportes": {
+    "deportes": {
         0: ['d', 'c', 'a', 'b', 'a'],
         1: ['c', 'd', 'b', 'a', 'b']
     },
-    "Instrumentos": {
+    "instrumentos": {
         0: ['a', 'c', 'd', 'b', 'c'],
         1: ['a', 'd', 'b', 'a', 'c']
     },
-    "Cuerpo": {
+    "cuerpo": {
         0: ['d', 'a', 'b', 'a', 'c'],
         1: ['a', 'b', 'c', 'b', 'd']
     },
-    "Transporte": {
+    "transporte": {
         0: ['b', 'd', 'c', 'a', 'a'],
         1: ['d', 'c', 'd', 'a', 'b']
     },
-    "Rios": {
+    "rios": {
         0: ['d', 'c', 'a', 'b', 'a'],
         1: ['a', 'c', 'b', 'a', 'd']
     }
 }
 
 preguntas = {
-    "Animales": {
+    "animales": {
         0: [
         "Cuál es el animal más grande del mundo?",
         "Qué animal vuela y hace miel?",
@@ -94,7 +94,7 @@ preguntas = {
         "Cuál es el animal que hiberna durante el invierno?"
         ]
     },
-    "Paises": {
+    "paises": {
         0: [
         "Cuál es el país más poblado del mundo?",
         "En qué país se encuentra la Torre Eiffel?",
@@ -110,7 +110,7 @@ preguntas = {
         "En qué país se encuentra la ciudad de Atenas?"
         ]
     },
-    "Profesiones": {
+    "profesiones": {
         0: [
         "Cuál es la profesión que se encarga de cuidar los dientes?",
         "Qué profesión se dedica a construir edificios?",
@@ -126,7 +126,7 @@ preguntas = {
         "Qué profesión se dedica a escribir noticias?"
         ]
     },
-    "Deportes": {
+    "deportes": {
         0: [
         "En qué deporte se utiliza una raqueta para golpear una pelota?",
         "Cuál es el deporte más popular en Estados Unidos?",
@@ -142,7 +142,7 @@ preguntas = {
         "Cuál es el deporte en el que dos equipos compiten por marcar goles?"
         ]
     },
-    "Instrumentos": {
+    "instrumentos": {
         0: [
         "Cuál es el instrumento de cuerda que se toca con un arco?",
         "Qué instrumento de percusión se toca con las manos?",
@@ -158,7 +158,7 @@ preguntas = {
         "Instrumento que se toca con las manos y tiene forma de media luna?"
         ]
     },
-    "Cuerpo": {
+    "cuerpo": {
         0: [
         "Cuál es el órgano que bombea la sangre?",
         "Qué parte del cuerpo contiene los dientes?",
@@ -174,7 +174,7 @@ preguntas = {
         "Qué parte del cuerpo se utiliza para ver?"
         ]
     },
-    "Transporte": {
+    "transporte": {
         0: [
         "Qué medio de transporte se utiliza para volar en el aire?",
         "Medio de transporte que se utiliza para navegar en el agua?",
@@ -190,7 +190,7 @@ preguntas = {
         "Medio de transporte con tres ruedas para niños?"
         ]
     },
-    "Rios": {
+    "rios": {
         0: [
         "Cuál es el río más largo de España?",
         "Cuál es el río que atraviesa Madrid?",
@@ -209,7 +209,7 @@ preguntas = {
 }
 
 respuestas = {
-    "Animales": {
+    "animales": {
         0: [
             ["Elefante", "Delfín", "Ballena", "León"],
             ["Mariposa", "Colibrí", "Gorrión", "Abeja"],
@@ -225,7 +225,7 @@ respuestas = {
             ["Ballena", "Panda", "León Marino", "Oso"]
         ]
     },
-    "Paises": {
+    "paises": {
         0: [
             ["China", "India", "Estados Unidos", "Rusia"],
             ["Francia", "Italia", "Alemania", "España"],
@@ -241,7 +241,7 @@ respuestas = {
             ["Italia", "Grecia", "Turquía", "Egipto"]
         ]
     },
-    "Profesiones": {
+    "profesiones": {
         0: [
             ["Médico", "Enfermero", "Dentista", "Farmacéutico"],
             ["Arquitecto", "Ingeniero", "Electricista", "Constructor"],
@@ -257,7 +257,7 @@ respuestas = {
             ["Escritor", "Editor", "Redactor", "Periodista"]
         ]
     },
-    "Colores": {
+    "colores": {
         0: [
             ["Verde", "Azul", "Morado", "Amarillo"],
             ["Rojo", "Naranja", "Rosado", "Violeta"],
@@ -273,7 +273,7 @@ respuestas = {
             ["Azul", "Verde", "Rosado", "Blanco"]
         ]
     },
-    "Deportes": {
+    "deportes": {
         0: [
             ["Golf", "Fútbol", "Baloncesto", "Tenis"],
             ["Beisbol", "Fútbol", "Hockey", "Baloncesto"],
@@ -289,7 +289,7 @@ respuestas = {
             ["Rugby", "Fútbol", "Balonmano", "Hockey sobre hielo"]
         ]
     },
-    "Instrumentos": {
+    "instrumentos": {
         0: [
             ["Violín", "Viola", "Cello", "Contrabajo"],
             ["Bongos", "Cajón", "Timba", "Congas"],
@@ -305,7 +305,7 @@ respuestas = {
             ["Congas", "Maracas", "Cajón", "Pandero"]
         ]
     },
-    "Cuerpo": {
+    "cuerpo": {
         0: [
             ["Cerebro", "Estómago", "Riñón", "Corazón"],
             ["Boca", "Nariz", "Oído", "Ojo"],
@@ -321,7 +321,7 @@ respuestas = {
             ["Oídos", "Boca", "Nariz", "Ojos"]
         ]
     },
-    "Transporte": {
+    "transporte": {
         0: [
             ["Helicóptero", "Avión", "Barco", "Coche"],
             ["Kayak", "Submarino", "Hidroavión", "Barco"],
@@ -337,7 +337,7 @@ respuestas = {
             ["Bicicleta", "Triciclo", "Patineta", "Monopatín"]
         ]
     },
-    "Rios": {
+    "rios": {
         0: [
             ["Duero", "Guadalquivir", "Tajo", "Ebro"],
             ["Sena", "Támesis", "Manzanares", "Rin"],

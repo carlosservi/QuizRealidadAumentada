@@ -4,11 +4,27 @@ from PIL import Image, ImageDraw, ImageFont, ImageTk
 import tkinter as tk
 import numpy as np
 import screeninfo
-import random
 import time
+from threading import Thread, Event
+from speech import getTextoReconocido, reconocimiento_de_voz_quiz
+
+evento = Event()
+respuesta = None
 
 def ejecutar_quiz(preguntas, respuestas, letras_correctas):
     cap = cv2.VideoCapture(0)
+
+    # def comprobar_evento():
+    #     global respuesta
+    #     if evento.is_set():
+    #         texto_reconocido = getTextoReconocido()
+    #         result = comprobarRespuesta(texto_reconocido)
+    #         if (result == True):
+    #             titulo_tema = texto_reconocido
+    #         else:
+    #             h1.start()
+        #else:
+        #    ventana.after(100, comprobar_evento)
 
     # Obtener las dimensiones de la pantalla
     screen_info = screeninfo.get_monitors()[0]
@@ -17,7 +33,7 @@ def ejecutar_quiz(preguntas, respuestas, letras_correctas):
 
     # Configuración del texto a mostrar
     font_path = "Font/RubikDistressed-Regular.ttf"
-    font_size = 36
+    font_size = 38
     font_color = (255, 255, 255)  # Color blanco
     thickness = 0
     font_size2 = 70
@@ -29,22 +45,70 @@ def ejecutar_quiz(preguntas, respuestas, letras_correctas):
     # Detector de rostros
     faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+    # Inicializar el contador de preguntas y respuestas
     cont = 0
+    contres = 0
     text = preguntas[cont]
-    tiempo_total = 5
-    cuenta_regresiva = 5
+    resa = "A. "+respuestas[contres][1]
+    resb = "B. "+respuestas[contres+1][1]
+    resc = "C. "+respuestas[contres+2][1]
+    resd = "D. "+respuestas[contres+3][1]
+
+    # Inicializar el texto de correcto e incorrecto y contadores de tiempo
+    tituloRespuesta = False
+    correcto = "Correcto!"
+    incorrecto = "Incorrecto!"
+    total_correcto = 2
+    cuenta_correcto = 2
+    ini_correcto = time.time()
+
+    # Inicializar el tiempo y declarar el tiempo total y la cuenta regresiva
+    tiempo_total = 21
+    cuenta_regresiva = 21
     inicio = time.time()
+
+    #Iniciar la hebra de speech 
+    h1 = Thread(target=reconocimiento_de_voz_quiz, args=(evento,))
+    h1.daemon = True
+    h1.start()
 
     while True and cont < 5:
         #Gestionar respuesta y tiempo
-        if cuenta_regresiva == 0:
+        if evento.is_set() or cuenta_regresiva == 0:
+            respuesta = getTextoReconocido()
+            if respuesta == 'a' or respuesta == 'b' or respuesta == 'c' or respuesta == 'd' or cuenta_regresiva == 0:
+                tituloRespuesta = True
+                if respuesta == letras_correctas[cont]:
+                    text = correcto
+                else:
+                    text = incorrecto
+                ini_correcto = time.time()
+                cuenta_regresiva = 0
+                evento.clear()
+            else:
+                respuesta = None
+                evento.clear()
+                h1.start()
+        elif tituloRespuesta == True and evento.is_set() == False and cuenta_correcto == 0:
+            tituloRespuesta = False
+        elif cuenta_correcto == 0 and tituloRespuesta == False:
             cont = cont+1
             text = preguntas[cont]
+            contres = contres+4
+            resa = "A. "+respuestas[contres][1]
+            resb = "B. "+respuestas[contres+1][1]
+            resc = "C. "+respuestas[contres+2][1]
+            resd = "D. "+respuestas[contres+3][1]
             inicio = time.time()
-
+            h1.start()
+    
         # Restar el tiempo transcurrido al tiempo total para obtener la cuenta regresiva
-        tiempo_transcurrido = int(time.time() - inicio)
-        cuenta_regresiva = tiempo_total - tiempo_transcurrido
+        if tituloRespuesta == False:
+            tiempo_transcurrido = int(time.time() - inicio)
+            cuenta_regresiva = tiempo_total - tiempo_transcurrido
+        else:
+            tiempo_transcurrido = int(time.time() - ini_correcto)
+            cuenta_correcto = total_correcto - tiempo_transcurrido
 
         ret, frame = cap.read()
         if ret == False:
@@ -69,13 +133,49 @@ def ejecutar_quiz(preguntas, respuestas, letras_correctas):
         draw.text((cuenta_x, cuenta_y), cuenta, font=font2, fill=font_color, stroke_width=thickness)
         
         for (x, y, w, h) in faces:
-            # Calcular las coordenadas superiores izquierdas del texto para que esté centrado en el rostro
-            text_width, text_height = draw.textsize(text, font=font)
-            text_x = x + (w - text_width) // 2
-            text_y = y - text_height
+            # Calcular las coordenadas superiores izquierdas de los textos para que estén centrados con el rostro
+            if tituloRespuesta==True:
+                #Texto Respuesta
+                text_width, text_height = draw.textsize(text, font=font)
+                text_x = x + (text_width // 2)
+                text_y = y - text_height
+                # Dibujar el texto en la imagen Pillow
+                draw.text((text_x, text_y), text, font=font2, fill=font_color, stroke_width=thickness)
+            else:
+                #Texto Pregunta
+                text_width, text_height = draw.textsize(text, font=font)
+                text_x = x + (w - text_width) // 2
+                text_y = y - text_height
+                # Dibujar el texto en la imagen Pillow
+                draw.text((text_x, text_y), text, font=font, fill=font_color, stroke_width=thickness)
 
-            # Dibujar el texto en la imagen Pillow
-            draw.text((text_x, text_y), text, font=font, fill=font_color, stroke_width=thickness)
+                #Texto Respuesta a
+                resa_width, resa_height = draw.textsize(resa, font=font)
+                resa_x = x - resa_width
+                resa_y = y + resa_height + 20
+                # Dibujar el texto en la imagen Pillow
+                draw.text((resa_x, resa_y), resa, font=font, fill=font_color, stroke_width=thickness)
+
+                #Texto Respuesta b
+                resb_width, resb_height = draw.textsize(resb, font=font)
+                resb_x = x - resb_width
+                resb_y = y + resb_height + 80
+                # Dibujar el texto en la imagen Pillow
+                draw.text((resb_x, resb_y), resb, font=font, fill=font_color, stroke_width=thickness)
+
+                #Texto Respuesta c
+                resc_width, resc_height = draw.textsize(resc, font=font)
+                resc_x = x + w
+                resc_y = y + resc_height + 20
+                # Dibujar el texto en la imagen Pillow
+                draw.text((resc_x, resc_y), resc, font=font, fill=font_color, stroke_width=thickness)
+
+                #Texto Respuesta d
+                resd_width, resd_height = draw.textsize(resd, font=font)
+                resd_x = x + w
+                resd_y = y + resd_height + 80
+                # Dibujar el texto en la imagen Pillow
+                draw.text((resd_x, resd_y), resd, font=font, fill=font_color, stroke_width=thickness)
 
         # Convertir la imagen Pillow a marco de OpenCV
         frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)

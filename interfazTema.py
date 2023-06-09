@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from threading import Thread, Event
 from speech import reconocimiento_de_voz, getTextoReconocido
 
+
 # Variable global para almacenar el título del tema seleccionado
 titulo_tema = None
 evento = Event()
@@ -15,19 +16,22 @@ def interfaz_tema():
         global titulo_tema
         titulo_tema = nombre_seccion
         ventana.destroy()
-    
+
     def comprobar_evento():
         global titulo_tema
-        if evento.is_set():
-            texto_reconocido = getTextoReconocido()
-            result = comprobarTema(texto_reconocido)
-            if (result == True):
-                titulo_tema = texto_reconocido
-                ventana.destroy()
+        try:
+            if evento.is_set():
+                texto_reconocido = getTextoReconocido()
+                texto_reconocido = texto_reconocido.lower()
+                result = comprobarTema(texto_reconocido)
+                if (result == True):
+                    titulo_tema = texto_reconocido
+                    #print("Entro titulo tema" + titulo_tema)
+                    ventana.destroy()
             else:
-                h1.start()
-        else:
-            ventana.after(100, comprobar_evento)
+                ventana.after(100, comprobar_evento)
+        except KeyboardInterrupt:
+            pass
     
     ventana = tk.Tk()
     ventana.title("Elegir Tema")
@@ -78,8 +82,9 @@ def interfaz_tema():
 
     #Iniciar la hebra de speech 
     h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
+    h1.daemon = True
     h1.start()
-    
+
     #Comprobar evento
     comprobar_evento()
 

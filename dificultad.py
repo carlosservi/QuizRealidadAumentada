@@ -19,15 +19,16 @@ def interfaz_dificultad():
     def comprobar_evento():
         global titulo_tema
         global dificultad
-        if evento.is_set():
-            texto_reconocido = getTextoReconocido()
-            result = comprobarNivel(texto_reconocido)
-            if (result == True):
-                ventana.destroy()
+        try:
+            if evento.is_set():
+                texto_reconocido = getTextoReconocido()
+                result = comprobarNivel(texto_reconocido)
+                if (result == True):
+                    ventana.destroy()
             else:
-                h1.start()
-        else:
-            ventana.after(100, comprobar_evento)
+                ventana.after(100, comprobar_evento)
+        except KeyboardInterrupt:
+            pass
 
     ventana = tk.Tk()
     ventana.title("Elegir Dificultad")
@@ -67,6 +68,7 @@ def interfaz_dificultad():
 
     #Iniciar la hebra de speech 
     h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
+    h1.daemon = True
     h1.start()
 
     #Comprobar evento
@@ -79,13 +81,12 @@ def interfaz_dificultad():
 def comprobarNivel(texto_reconocido):    
     global dificultad
     if(texto_reconocido != None):
-        substring = "dif"
+        substring = "facil"
         if substring in texto_reconocido.lower():
             dificultad = 0
         else:
             dificultad = 1
-            return True
-        return False
+        return True
     else:
         return False
 
