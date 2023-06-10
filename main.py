@@ -19,10 +19,10 @@ def main():
     try:
         nombre = interfazInicial.interfaz_inicial()
         if(nombre != None):
-            #nombre_tema = interfazTema.interfaz_tema()
-            #dif = dificultad.interfaz_dificultad()
-            nombre_tema = "animales"
-            dif= 0
+            nombre_tema = interfazTema.interfaz_tema()
+            dif = dificultad.interfaz_dificultad()
+            #nombre_tema = "animales"
+            #dif= 0
             bbdd.conexion()
             preguntas = bbdd.consultar_preguntas(nombre_tema, dif)
             respuestas = bbdd.consultar_respuestas(nombre_tema, dif)

@@ -24,6 +24,8 @@ def interfaz_dificultad():
                 texto_reconocido = getTextoReconocido()
                 result = comprobarNivel(texto_reconocido)
                 if (result == True):
+                    h1.join()
+                    print("Hebra terminada 2")
                     ventana.destroy()
             else:
                 ventana.after(100, comprobar_evento)
@@ -81,7 +83,7 @@ def interfaz_dificultad():
 def comprobarNivel(texto_reconocido):    
     global dificultad
     if(texto_reconocido != None):
-        substring = "facil"
+        substring = "fa"
         if substring in texto_reconocido.lower():
             dificultad = 0
         else:

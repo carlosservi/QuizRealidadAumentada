@@ -26,7 +26,8 @@ def interfaz_tema():
                 result = comprobarTema(texto_reconocido)
                 if (result == True):
                     titulo_tema = texto_reconocido
-                    #print("Entro titulo tema" + titulo_tema)
+                    h1.join()
+                    print("Hebra terminada")
                     ventana.destroy()
             else:
                 ventana.after(100, comprobar_evento)
@@ -95,7 +96,7 @@ def interfaz_tema():
 
 def comprobarTema(texto_reconocido):    
     if(texto_reconocido != None):
-        substrings = ["animales", "paises", "profesiones", "deportes", "instrumentos", "cuerpo", "transporte", "rios"]
+        substrings = ["animales", "paises", "profesiones", "deportes", "instrumentos", "cuerpo", "transportes", "rios"]
         for substring in substrings:
             if substring in texto_reconocido.lower():
                 return True
