@@ -2,15 +2,19 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from threading import Thread, Event
-from speech import reconocimiento_de_voz, getTextoReconocido
+import speech as sp
 
 
 # Variable global para almacenar el título del tema seleccionado
 titulo_tema = None
-evento = Event()
+#evento = Event()
 
 def interfaz_tema():
     global titulo_tema
+    sp.evento.clear()
+    ventana = tk.Tk()
+    ventana.title("Elegir Tema")
+    ventana.resizable(0, 0)
 
     def tema_wrapper(nombre_seccion, ventana):
         global titulo_tema
@@ -19,24 +23,18 @@ def interfaz_tema():
 
     def comprobar_evento():
         global titulo_tema
-        try:
-            if evento.is_set():
-                texto_reconocido = getTextoReconocido()
-                texto_reconocido = texto_reconocido.lower()
-                result = comprobarTema(texto_reconocido)
+        if sp.evento.is_set():
+            with sp.cerrojo:
+                texto = sp.texto_reconocido.lower()
+                result = comprobarTema(texto)
                 if (result == True):
-                    titulo_tema = texto_reconocido
-                    h1.join()
-                    print("Hebra terminada")
+                    titulo_tema = texto
                     ventana.destroy()
-            else:
-                ventana.after(100, comprobar_evento)
-        except KeyboardInterrupt:
-            pass
-    
-    ventana = tk.Tk()
-    ventana.title("Elegir Tema")
-    ventana.resizable(0, 0)
+                    return titulo_tema
+                else:
+                    sp.evento.clear()
+        else:
+            ventana.after(50, comprobar_evento)
 
     # Obtener el ancho y la altura de la pantalla
     ancho_pantalla = ventana.winfo_screenwidth()
@@ -82,12 +80,12 @@ def interfaz_tema():
             crear_seccion(ventana, i, j, icono, titulo, tema_wrapper)
 
     #Iniciar la hebra de speech 
-    h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
-    h1.daemon = True
-    h1.start()
+    # h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
+    # h1.daemon = True
+    # h1.start()
 
     #Comprobar evento
-    comprobar_evento()
+    ventana.after(50, comprobar_evento)
 
     # Ejecutar la interfaz gráfica
     ventana.mainloop()
@@ -96,9 +94,11 @@ def interfaz_tema():
 
 def comprobarTema(texto_reconocido):    
     if(texto_reconocido != None):
+        print(texto_reconocido)
         substrings = ["animales", "paises", "profesiones", "deportes", "instrumentos", "cuerpo", "transportes", "rios"]
         for substring in substrings:
             if substring in texto_reconocido.lower():
+                print("Tema encontrado")
                 return True
         return False
     else:

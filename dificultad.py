@@ -1,36 +1,32 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from threading import Thread, Event
-from speech import reconocimiento_de_voz, getTextoReconocido
+import speech as sp
 
 dificultad = None
-evento = Event()
 
 def seleccionar_dificultad(dificultad_seleccionada, ventana):
     global dificultad
-    dificultad = dificultad_seleccionada
+    dificultad =  dificultad_seleccionada
     ventana.destroy()
-
-
+    
 def interfaz_dificultad():
     global dificultad
+    sp.evento.clear()
 
     def comprobar_evento():
-        global titulo_tema
         global dificultad
-        try:
-            if evento.is_set():
-                texto_reconocido = getTextoReconocido()
-                result = comprobarNivel(texto_reconocido)
-                if (result == True):
-                    h1.join()
-                    print("Hebra terminada 2")
-                    ventana.destroy()
+        if sp.evento.is_set():
+            texto = sp.texto_reconocido.lower()
+            result = comprobarNivel(texto)
+            if result == 0 or result == 1:
+                dificultad = result
+                ventana.destroy()
             else:
-                ventana.after(100, comprobar_evento)
-        except KeyboardInterrupt:
-            pass
+                sp.evento.clear()
+        else:
+            ventana.after(50, comprobar_evento)
+
 
     ventana = tk.Tk()
     ventana.title("Elegir Dificultad")
@@ -68,27 +64,19 @@ def interfaz_dificultad():
     boton_dificil = ttk.Button(frame_botones, text="Difícil", command=lambda: seleccionar_dificultad("1", ventana))
     boton_dificil.pack(side="left", padx=20)
 
-    #Iniciar la hebra de speech 
-    h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
-    h1.daemon = True
-    h1.start()
-
     #Comprobar evento
-    comprobar_evento()
+    ventana.after(50, comprobar_evento)
 
     ventana.mainloop()
-
-    return dificultad
 
 def comprobarNivel(texto_reconocido):    
     global dificultad
     if(texto_reconocido != None):
-        substring = "fa"
+        substring = "facil"
         if substring in texto_reconocido.lower():
-            dificultad = 0
+            return 0
         else:
-            dificultad = 1
-        return True
+            return 1
     else:
-        return False
+        return None
 
