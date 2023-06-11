@@ -67,9 +67,10 @@ def ejecutar_quiz(preguntas, respuestas, letras_correctas):
             if respuesta != None:
                 if respuesta == letras_correctas[cont]:
                     text = correcto
-                    correctas.append(cont+1)
+                    correctas.append(True)
                 else:
                     text = incorrecto
+                    correctas.append(False)
                 ini_correcto = time.time()
                 cuenta_regresiva = 21
         elif comprobacion == True and cuenta_correcto == 0:

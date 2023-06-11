@@ -43,7 +43,7 @@ def recuperarPreguntas():
                 # Inserción de preguntas
                 cursor.execute(insert_question_query, (tematica, nivel, pregunta_text, r.opciones_correctas[tematica][nivel][i]))
                 question_id = cursor.lastrowid
-                # Inserción the respuestas
+                # Inserción de respuestas
                 for j, respuesta_text in enumerate(r.respuestas[tematica][nivel][i]):
                     es_correcta = 1 if r.opciones_correctas[tematica][nivel][i] == chr(97 + j) else 0
                     cursor.execute(insert_answer_query, (question_id, chr(97 + j), respuesta_text, es_correcta))

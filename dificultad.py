@@ -43,7 +43,6 @@ def interfaz_dificultad():
     imagen = imagen.resize((100, 100), Image.ANTIALIAS)
     icono = ImageTk.PhotoImage(imagen)
 
-    #Texto
     texto = "Diga por voz o pulse la dificultad:"
 
     label_titulo = ttk.Label(ventana, text=texto)
@@ -52,7 +51,6 @@ def interfaz_dificultad():
     label_icono = ttk.Label(ventana, image=icono)
     label_icono.pack()
 
-    # Estilo para los botones
     estilo_boton = ttk.Style()
     estilo_boton.configure("TButton", font=("Arial", 12))
 
