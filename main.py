@@ -19,15 +19,23 @@ def main():
             h1.start()
             while reiniciar:
                 nombre_tema = interfazTema.interfaz_tema()
+                if nombre_tema == None:
+                    break
                 dificultad.interfaz_dificultad()
                 dif = dificultad.dificultad
+                if dif == None:
+                    break
                 bbdd.conexion()
                 preguntas = bbdd.consultar_preguntas(nombre_tema, dif)
                 respuestas = bbdd.consultar_respuestas(nombre_tema, dif)
                 letras = bbdd.consultar_letras_correctas(nombre_tema, dif)
                 bbdd.cerrarConexion()
+                if preguntas == None or respuestas == None or letras == None:
+                    break
                 correctas = quiz.ejecutar_quiz(preguntas, respuestas, letras)
-                correctas = [True,True,False,False,False]
+                if correctas == None:
+                    break
+                correctas = [True,True,True,False,False]
                 reiniciar = resultados.resultados(correctas, nombre)
     except Exception as e:
         print("Error en la ejecución del programa:" + str(e))
