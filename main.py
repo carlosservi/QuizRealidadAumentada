@@ -33,9 +33,8 @@ def main():
                 if preguntas == None or respuestas == None or letras == None:
                     break
                 correctas = quiz.ejecutar_quiz(preguntas, respuestas, letras)
-                if correctas == None:
+                if correctas == None or len(correctas) < 5:
                     break
-                correctas = [True,True,True,False,False]
                 reiniciar = resultados.resultados(correctas, nombre)
     except Exception as e:
         print("Error en la ejecución del programa:" + str(e))

@@ -52,7 +52,7 @@ def resultados(correctas, nombre):
         else:
             t = "Incorrecto"
             errores+=1
-        resultados.append("Pregunta " + str(cont) + ": " + t)
+        resultados.append("Pregunta " + str(cont+1) + ": " + t)
         cont+=1
 
     

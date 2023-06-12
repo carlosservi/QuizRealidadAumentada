@@ -125,11 +125,11 @@ def ejecutar_quiz(preguntas, respuestas, letras_correctas):
             # Calcular las coordenadas superiores izquierdas de los textos para que estén centrados con el rostro
             if comprobacion==True:
                 #Texto Respuesta
-                text_width, text_height = draw.textsize(text, font=font)
-                text_x = x
-                text_y = y - text_height
+                texta_width, texta_height = draw.textsize(text, font=font2)
+                texta_x = x + (w - texta_width) // 2
+                texta_y = y - texta_height
                 # Dibujar el texto en la imagen Pillow
-                draw.text((text_x, text_y), text, font=font2, fill=font_color, stroke_width=thickness)
+                draw.text((texta_x, texta_y), text, font=font2, fill=font_color, stroke_width=thickness)
             else:
                 #Texto Pregunta
                 text_width, text_height = draw.textsize(texto, font=font)
