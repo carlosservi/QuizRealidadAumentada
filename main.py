@@ -27,7 +27,8 @@ def main():
                 letras = bbdd.consultar_letras_correctas(nombre_tema, dif)
                 bbdd.cerrarConexion()
                 correctas = quiz.ejecutar_quiz(preguntas, respuestas, letras)
-                reiniciar = resultados.resultados(correctas)
+                correctas = [True,True,False,False,False]
+                reiniciar = resultados.resultados(correctas, nombre)
     except Exception as e:
         print("Error en la ejecución del programa:" + str(e))
     

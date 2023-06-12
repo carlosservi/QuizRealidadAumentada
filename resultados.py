@@ -8,11 +8,14 @@ from threading import Thread, Event
 import speech as sp
 
 
-def resultados(correctas):
+def resultados(correctas, nombre):
     # Inicializar las variables
     resultados = []
     reiniciar = False
     sp.evento.clear()
+    nombre = nombre.capitalize()
+
+    aciertos, errores = obtener_resultados_existentes(nombre)
 
     # Inicializar la cámara
     cap = cv2.VideoCapture(0)
@@ -28,10 +31,12 @@ def resultados(correctas):
     font_color = (255, 255, 255)  # Color blanco
     thickness = 0
     font_size2 = 70
+    font_size3 = 24
 
     # Cargar la fuente personalizada
     font = ImageFont.truetype(font_path, font_size)
     font2 = ImageFont.truetype(font_path, font_size2)
+    font3 = ImageFont.truetype(font_path, font_size3)
 
     # Detector de rostros
     faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -42,14 +47,31 @@ def resultados(correctas):
     for elemento in correctas:
         if(elemento == True):
             t = "Correcto"
+            aciertos+=1
             res+=2
         else:
             t = "Incorrecto"
+            errores+=1
         resultados.append("Pregunta " + str(cont) + ": " + t)
         cont+=1
 
-    texto = "Resultados: " + str(res*10) + "%"
+    
+    #Texto de resultado
+    texto = nombre + " tu resultado es: " + str(res*10) + "%"
+    
+    #Textos de resultados globales
+    porcentaje = (aciertos/(aciertos+errores))*100
+    texto_global = nombre + " tu resultado global es: " + str(porcentaje) + "%"
+    resultados_globales = "Aciertos: " + str(aciertos) + " - Errores: " + str(errores)
+    
+    #Texto de despedida
     despedida = "Diga Reiniciar para volver a jugar o Salir para terminar"
+
+    # Guardar los resultados en el archivo
+    archivo = open("Resultados/" + nombre, "w")
+    archivo.write("Correctas = {}\n".format(aciertos))
+    archivo.write("Incorrectas = {}\n".format(errores))
+    archivo.close()
 
     while True:
         #Gestionar respuesta y reinicio
@@ -121,12 +143,27 @@ def resultados(correctas):
                 # Dibujar el texto en la imagen Pillow
                 draw.text((rese_x, rese_y), resultados[4], font=font, fill=font_color, stroke_width=thickness)
 
+                #Texto Resultados globales
+                resg_width, resg_height = draw.textsize(texto_global, font=font3)
+                resg_x = x + (w - resg_width) // 2
+                resg_y = y + resg_height + 300
+                # Dibujar el texto en la imagen Pillow
+                draw.text((resg_x, resg_y), texto_global, font=font3, fill=font_color, stroke_width=thickness)
+
+                resh_width, resh_height = draw.textsize(resultados_globales, font=font3)
+                resh_x = x + (w - resh_width) // 2
+                resh_y = y + resh_height + 330
+                # Dibujar el texto en la imagen Pillow
+                draw.text((resh_x, resh_y), resultados_globales, font=font3, fill=font_color, stroke_width=thickness)
+
                 #Texto Reiniciar
                 resf_width, resf_height = draw.textsize(despedida, font=font)
                 resf_x = x + (w - resf_width) // 2
-                resf_y = y + resf_height + 300
+                resf_y = y + resf_height + 400
                 # Dibujar el texto en la imagen Pillow
                 draw.text((resf_x, resf_y), despedida, font=font, fill=font_color, stroke_width=thickness)
+
+                
 
         # Convertir la imagen Pillow a marco de OpenCV
         frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
@@ -159,3 +196,26 @@ def comprobar_evento(texto):
         return "f", False
     else:
         return "f", False
+    
+#Función para obtener los resultados de un usuario   
+def obtener_resultados_existentes(nombre):
+    try:
+        archivo = open("Resultados/" + nombre, "r")
+        lineas = archivo.readlines()
+        archivo.close()
+
+        aciertos = 0
+        errores = 0
+
+        for linea in lineas:
+            if "Correctas" in linea:
+                aciertos = int(linea.split("=")[1].strip())
+            elif "Incorrectas" in linea:
+                errores = int(linea.split("=")[1].strip())
+
+        return aciertos, errores
+
+    except FileNotFoundError:
+        return 0, 0
+
+
