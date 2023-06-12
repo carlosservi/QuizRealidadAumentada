@@ -1,0 +1,9 @@
+opencv-python
+mysql
+mysql-connector-python
+face_recognition
+imutils
+SpeechRecognition
+unidecode
+screeninfo
+pyaudio

@@ -5,11 +5,14 @@ from login import loguearse
 from registro import registrarse
 from threading import Thread
 
+#Variable global para almacenar el nombre del usuario
 nombre=None
 
+#Función para registrarse
 def registrarse_usuario():
     registrarse()
 
+#Función de la interfaz inicial con la lógica
 def interfaz_inicial():
     global nombre
 
@@ -61,6 +64,7 @@ def interfaz_inicial():
     ventana.mainloop()
     return nombre
     
+#Función para loguearse
 def login(ventana):
     global nombre
     nombre = loguearse()

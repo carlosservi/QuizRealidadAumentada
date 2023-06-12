@@ -5,14 +5,19 @@ import cv2
 import face_recognition
 import os
 
+# Funcion de logueo
 def loguearse():
+    # Lista para almacenar los encodings faciales registrados
     encodings_registrados = []
+    # Lista para almacenar los nombres de usuario registrados
     nombres_registrados = []
 
+    # Obtiene la lista de nombres de usuarios registrados en el directorio "Data"
     nombres_usuarios = os.listdir("Data")
     if not os.path.exists("Data"):
         print("No se puede abrir el archivo")
 
+    # Rellena las listas de encondings y nombres
     for nombre_usuario in nombres_usuarios:
         ruta_usuario = os.path.join("Data", nombre_usuario)
         nombres_imagenes = os.listdir(ruta_usuario)
@@ -41,7 +46,7 @@ def loguearse():
         # Comparar los encodings de las caras detectadas con los encodings registrados
         for encoding in encodings:
             coincidencias = face_recognition.compare_faces(encodings_registrados, encoding)
-
+            # Comprueba si existe coincidencias
             if True in coincidencias:
                 indice = coincidencias.index(True)
                 nombre_registrado = nombres_registrados[indice]

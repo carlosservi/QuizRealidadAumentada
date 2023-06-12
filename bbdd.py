@@ -3,6 +3,7 @@ import rbbdd as r
 
 con = None
 
+#Función de conexión, es necesario ingresar los datos correctos de la bbdd
 def conexion():
     global con 
     con = mysql.connector.connect(
@@ -12,6 +13,7 @@ def conexion():
         database="quiz"
     )
 
+#Función para introducir las tablas en la bbdd
 def recuperarTablas():
     global con
     cursor = con.cursor()
@@ -19,6 +21,7 @@ def recuperarTablas():
         cursor.execute(tablas)
     con.commit()
 
+#Funcion para rellenar la tabla de tematicas
 def recuperarTematicas():
     global con
     cursor = con.cursor()
@@ -26,6 +29,7 @@ def recuperarTematicas():
         cursor.execute("INSERT INTO Tematicas (nombre) VALUES (%s)", (tematica,))
     con.commit()
 
+#Funcion para rellenar la tabla de preguntas y la de respuestas
 def recuperarPreguntas():
     global con
     cursor = con.cursor()
@@ -50,10 +54,12 @@ def recuperarPreguntas():
     
     con.commit()
 
+#Funcion para cerrar la conexion
 def cerrarConexion():
     global con
     con.close()
 
+#Funcion para mostrar las tablas de la bbdd
 def mostrarTablas():
     global con
     cursor = con.cursor()
@@ -66,6 +72,7 @@ def mostrarTablas():
     for fila in resultados:
         print(fila[0])
 
+#Función para limpiar la base de datos
 def limpiarBaseDeDatos():
     global con
     cursor = con.cursor()
@@ -82,6 +89,7 @@ def limpiarBaseDeDatos():
 
     con.commit()
 
+#Función para consultar las preguntas
 def consultar_preguntas(tematica, nivel):
     global con
     cursor = con.cursor()
@@ -96,6 +104,7 @@ def consultar_preguntas(tematica, nivel):
     preguntas = [pregunta[0] for pregunta in preguntas]
     return preguntas
 
+#Función para consultar las respuestas
 def consultar_respuestas(tematica, nivel):
     global con
     cursor = con.cursor()
@@ -110,6 +119,7 @@ def consultar_respuestas(tematica, nivel):
     respuestas = cursor.fetchall()
     return respuestas
 
+#Función para consultar las letras correctas
 def consultar_letras_correctas(tematica, nivel):
     global con
     cursor = con.cursor()

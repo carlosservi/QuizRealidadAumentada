@@ -9,9 +9,12 @@ import speech as sp
 
 
 def resultados(correctas):
+    # Inicializar las variables
     resultados = []
     reiniciar = False
+    sp.evento.clear()
 
+    # Inicializar la cámara
     cap = cv2.VideoCapture(0)
 
     # Obtener las dimensiones de la pantalla
@@ -141,11 +144,12 @@ def resultados(correctas):
         if cv2.waitKey(1) == ord(' '):
             break
 
+    #Liberar los recursos
     cap.release()
     cv2.destroyAllWindows()
     return reiniciar
 
-
+#Función para comprobar si se ha dicho reiniciar o salir
 def comprobar_evento(texto):
     if(texto != None):
         substrings = ["reiniciar", "salir"]

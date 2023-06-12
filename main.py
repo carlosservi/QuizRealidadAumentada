@@ -9,16 +9,7 @@ import resultados
 
 
 
-def main():
-    #Recuperación de base de datos
-    # bbdd.conexion()
-    # bbdd.limpiarBaseDeDatos()
-    # bbdd.recuperarTablas()
-    # bbdd.recuperarTematicas()
-    # bbdd.recuperarPreguntas()
-    # bbdd.cerrarConexion()
-    
-    #Flujo normal de la aplicación
+def main():    
     try:
         reiniciar = True
         nombre = interfazInicial.interfaz_inicial()

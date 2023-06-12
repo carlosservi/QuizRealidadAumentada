@@ -7,8 +7,8 @@ import speech as sp
 
 # Variable global para almacenar el título del tema seleccionado
 titulo_tema = None
-#evento = Event()
 
+#Interfaz para seleccionar el tema con toda la funcionalidad
 def interfaz_tema():
     global titulo_tema
     sp.evento.clear()
@@ -16,11 +16,13 @@ def interfaz_tema():
     ventana.title("Elegir Tema")
     ventana.resizable(0, 0)
 
+    #Función para rellenar el tema si se hace la selección a través del botón
     def tema_wrapper(nombre_seccion, ventana):
         global titulo_tema
         titulo_tema = nombre_seccion
         ventana.destroy()
 
+    #Comprobar evento de voz
     def comprobar_evento():
         global titulo_tema
         if sp.evento.is_set():
@@ -79,11 +81,6 @@ def interfaz_tema():
             titulo = titulos[index]
             crear_seccion(ventana, i, j, icono, titulo, tema_wrapper)
 
-    #Iniciar la hebra de speech 
-    # h1 = Thread(target=reconocimiento_de_voz, args=(evento,))
-    # h1.daemon = True
-    # h1.start()
-
     #Comprobar evento
     ventana.after(50, comprobar_evento)
 
@@ -92,6 +89,7 @@ def interfaz_tema():
 
     return titulo_tema
 
+#Comprobar si el texto reconocido es un tema
 def comprobarTema(texto_reconocido):    
     if(texto_reconocido != None):
         print(texto_reconocido)
@@ -104,6 +102,7 @@ def comprobarTema(texto_reconocido):
     else:
         return False
 
+# Función para crear una sección
 def crear_seccion(ventana, fila, columna, icono, titulo, tema_wrapper):
     frame = ttk.LabelFrame(ventana, padding="10 20 10 10")
     frame.grid(row=fila, column=columna, padx=10, pady=10, sticky="nsew")

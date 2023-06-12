@@ -8,11 +8,13 @@ import time
 from threading import Thread, Event
 import speech as sp
 
-#evento = Event()
 respuesta = None
 
+#Función principal del Quiz
 def ejecutar_quiz(preguntas, respuestas, letras_correctas):
+    # Inicializar las variables
     correctas = []
+    sp.evento.clear()
     cap = cv2.VideoCapture(0)
 
     # Obtener las dimensiones de la pantalla
@@ -180,11 +182,12 @@ def ejecutar_quiz(preguntas, respuestas, letras_correctas):
         if cv2.waitKey(1) == ord(' '):
             break
 
+    # Liberar los recursos
     cap.release()
     cv2.destroyAllWindows()
     return correctas
 
-
+#Función para comprobar la respuesta
 def comprobar_evento(texto):
     if(texto != None):
         substrings = ["a", "b", "c", "d"]

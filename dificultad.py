@@ -3,17 +3,21 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import speech as sp
 
+#Variable global para almacenar la dificultad seleccionada
 dificultad = None
 
+#Función para rellenar la dificultad si se hace la selección a través del botón
 def seleccionar_dificultad(dificultad_seleccionada, ventana):
     global dificultad
     dificultad =  dificultad_seleccionada
     ventana.destroy()
-    
+
+#Interfaz para seleccionar la dificultad con toda la funcionalidad
 def interfaz_dificultad():
     global dificultad
     sp.evento.clear()
 
+    #Comprobar evento de voz
     def comprobar_evento():
         global dificultad
         if sp.evento.is_set():
@@ -32,10 +36,15 @@ def interfaz_dificultad():
     ventana.title("Elegir Dificultad")
     ventana.resizable(0, 0)
 
+    # Obtener el ancho y la altura de la pantalla
     ancho_pantalla = ventana.winfo_screenwidth()
     altura_pantalla = ventana.winfo_screenheight()
+
+    # Calcular las coordenadas para centrar la ventana
     x = (ancho_pantalla // 2) - (600 // 2)
     y = (altura_pantalla // 2) - (300 // 2)
+
+    # Configurar las coordenadas de la ventana
     ventana.geometry(f"600x300+{x}+{y}")
 
     # Cargar la imagen
@@ -43,8 +52,8 @@ def interfaz_dificultad():
     imagen = imagen.resize((100, 100), Image.ANTIALIAS)
     icono = ImageTk.PhotoImage(imagen)
 
+    # Crear los widgets
     texto = "Diga por voz o pulse la dificultad:"
-
     label_titulo = ttk.Label(ventana, text=texto)
     label_titulo.pack(pady=10)
 
@@ -67,6 +76,7 @@ def interfaz_dificultad():
 
     ventana.mainloop()
 
+#Función para asignar nivel
 def comprobarNivel(texto_reconocido):    
     global dificultad
     if(texto_reconocido != None):
